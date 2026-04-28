@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
-<%-- 04/27 14:05更新　関数名とかは仮 --%>
+<%-- 04/28 11:30更新　動くかは知らん --%>
 
 <c:import url="/common/base.jsp" >
 	<c:param name="title">
