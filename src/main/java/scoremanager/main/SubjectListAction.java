@@ -1,12 +1,11 @@
 package scoremanager.main;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.security.auth.Subject;
-
+import bean.School;
+import bean.Subject;
 import bean.Teacher;
+import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -23,11 +22,9 @@ public class SubjectListAction extends Action {
 		Teacher teacher = (Teacher)session.getAttribute("user");
 
 		// ローカル変数の指定 1
-		String subjectCd=null;
 		List<Subject> subjects = null; // 科目リスト
 		SubjectDao subjectDao = new SubjectDao(); // 科目Dao
-		String school;
-		Map<String, String> errors = new HashMap<>(); // エラーメッセージ
+		School school;
 
 		// リクエストパラメーターの取得 2
 
@@ -35,7 +32,7 @@ public class SubjectListAction extends Action {
 
 		// DBからデータ取得 3
 		// ログインユーザーの学校コードを取得
-		school = teacher.getSchool().toString();
+		school = teacher.getSchool();
 
 		subjects = subjectDao.filter(teacher.getSchool());
 
