@@ -1,8 +1,9 @@
 package scoremanager.main;
 
-import javax.security.auth.Subject;
-
+import bean.School;
+import bean.Subject;
 import bean.Teacher;
+import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -20,7 +21,8 @@ public class SubjectCreateExecuteAction extends Action {
 		String subject_name = ""; // 入力された氏名
 		Subject subject = new Subject();
 		SubjectDao subjectDao = new SubjectDao();
-		String errors; // エラーメッセージ
+		String errors = null; // エラーメッセージ
+		School school = teacher.getSchool();
 
 		// リクエストパラメーターの取得 2
 		subject_cd = req.getParameter("cd");
@@ -35,7 +37,7 @@ public class SubjectCreateExecuteAction extends Action {
 			// リクエストにエラーメッセージをセット
 			req.setAttribute("errors", errors);
 		} else {
-			if (subjectDao.get(subject_cd) != null) { // 科目コードが重複している場合
+			if (subjectDao.get(subject_cd,school) != null) { // 科目コードが重複している場合
 				errors = "科目コードが重複しています";
 				// リクエストにエラーメッセージをセット
 				req.setAttribute("errors", errors);
@@ -56,7 +58,7 @@ public class SubjectCreateExecuteAction extends Action {
 		req.setAttribute("name", subject_name);
 
 		// JSPへフォワード 7
-		if (errors.isEmpty()) { // エラーメッセージがない場合
+		if (errors == null) { // エラーメッセージがない場合
 			// 登録完了画面にフォワード
 			req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
 		} else { // エラーメッセージがある場合
