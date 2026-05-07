@@ -1,4 +1,6 @@
-/bean/
-/dao/
-/scoremanager/
-/tool/
+/build/
+/bin/
+*.class
+.settings/
+.project
+.classpath
