@@ -6,7 +6,7 @@
     <c:param name="scripts"></c:param>
     <c:param name="content">
         <section class="me-4">
-            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目変更</h2>
+            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目情報変更</h2>
             <div class="my-2 px-4">
                 <a href="SubjectList.action">&laquo; 科目一覧へ戻る</a>
             </div>
@@ -21,12 +21,12 @@
                 </div>
             </c:if>
 
-            <form method="post" class="mx-4 mt-3">
-                <input type="hidden" name="subject_cd" value="${subject.subjectCd}" />
+            <form method="post" action="SubjectUpdateExecute.action" class="mx-4 mt-3">
                 <div class="mb-3 row">
                     <label class="col-sm-3 col-form-label">科目コード</label>
                     <div class="col-sm-4">
                         <p class="form-control-plaintext">${subject.subjectCd}</p>
+                        <input type="hidden" name="subject_cd" value="${subject.subjectCd}">
                     </div>
                 </div>
                 <div class="mb-3 row">
