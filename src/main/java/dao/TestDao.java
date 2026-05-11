@@ -17,18 +17,18 @@ public class TestDao extends Dao {
     /**
      * getメソッド 学生番号・科目コード・学校コード・回数で得点を1件取得する
      */
-    public Test get(String studentNo, String subjectCd, String schoolCd, int times) throws Exception {
+    public Test get(String studentNo, String subjectCd, String schoolCd, int no) throws Exception {
         Test test = null;
         Connection connection = getConnection();
         PreparedStatement statement = null;
 
         try {
             statement = connection.prepareStatement(
-                "select * from test where student_no = ? and subject_cd = ? and school_cd = ? and times = ?");
+                "select * from test where student_no = ? and subject_cd = ? and school_cd = ? and no = ?");
             statement.setString(1, studentNo);
             statement.setString(2, subjectCd);
             statement.setString(3, schoolCd);
-            statement.setInt(4, times);
+            statement.setInt(4, no);
             ResultSet rSet = statement.executeQuery();
 
             if (rSet.next()) {
@@ -36,8 +36,8 @@ public class TestDao extends Dao {
                 test.setStudentNo(rSet.getString("student_no"));
                 test.setSubjectCd(rSet.getString("subject_cd"));
                 test.setSchoolCd(rSet.getString("school_cd"));
-                test.setTimes(rSet.getInt("times"));
-                test.setScore(rSet.getInt("score"));
+                test.setno(rSet.getInt("no"));
+                test.setpoint(rSet.getInt("point"));
                 test.setClassNum(rSet.getString("class_num"));
             }
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class TestDao extends Dao {
     /**
      * filterメソッド 学校・科目コード・クラス番号・回数で得点一覧を取得する
      */
-    public List<Test> filter(School school, String subjectCd, String classNum, int times) throws Exception {
+    public List<Test> filter(School school, String subjectCd, String classNum, int no) throws Exception {
         List<Test> list = new ArrayList<>();
         Connection connection = getConnection();
         PreparedStatement statement = null;
@@ -75,11 +75,11 @@ public class TestDao extends Dao {
                 sql.append(" and t.class_num = ?");
                 params.add(classNum);
             }
-            if (times > 0) {
-                sql.append(" and t.times = ?");
-                params.add(times);
+            if (no > 0) {
+                sql.append(" and t.no = ?");
+                params.add(no);
             }
-            sql.append(" order by t.subject_cd, t.times, t.student_no");
+            sql.append(" order by t.subject_cd, t.no, t.student_no");
 
             statement = connection.prepareStatement(sql.toString());
             for (int i = 0; i < params.size(); i++) {
@@ -94,8 +94,8 @@ public class TestDao extends Dao {
                 test.setStudentNo(rSet.getString("student_no"));
                 test.setSubjectCd(rSet.getString("subject_cd"));
                 test.setSchoolCd(rSet.getString("school_cd"));
-                test.setTimes(rSet.getInt("times"));
-                test.setScore(rSet.getInt("score"));
+                test.setno(rSet.getInt("no"));
+                test.setpoint(rSet.getInt("point"));
                 test.setClassNum(rSet.getString("class_num"));
 
                 Student student = new Student();
@@ -135,7 +135,7 @@ public class TestDao extends Dao {
                 "join student s on t.student_no = s.student_no and t.school_cd = s.school_cd " +
                 "join subject sub on t.subject_cd = sub.subject_cd and t.school_cd = sub.school_cd " +
                 "where t.school_cd = ? and t.student_no = ? " +
-                "order by t.subject_cd, t.times");
+                "order by t.subject_cd, t.no");
             statement.setString(1, school.getSchoolCd());
             statement.setString(2, studentNo);
             ResultSet rSet = statement.executeQuery();
@@ -145,8 +145,8 @@ public class TestDao extends Dao {
                 test.setStudentNo(rSet.getString("student_no"));
                 test.setSubjectCd(rSet.getString("subject_cd"));
                 test.setSchoolCd(rSet.getString("school_cd"));
-                test.setTimes(rSet.getInt("times"));
-                test.setScore(rSet.getInt("score"));
+                test.setno(rSet.getInt("no"));
+                test.setpoint(rSet.getInt("point"));
                 test.setClassNum(rSet.getString("class_num"));
 
                 Student student = new Student();
@@ -181,24 +181,24 @@ public class TestDao extends Dao {
         int count = 0;
 
         try {
-            Test old = get(test.getStudentNo(), test.getSubjectCd(), test.getSchoolCd(), test.getTimes());
+            Test old = get(test.getStudentNo(), test.getSubjectCd(), test.getSchoolCd(), test.getno());
             if (old == null) {
                 statement = connection.prepareStatement(
-                    "insert into test(student_no, subject_cd, school_cd, times, score, class_num) values(?,?,?,?,?,?)");
+                    "insert into test(student_no, subject_cd, school_cd, no, point, class_num) values(?,?,?,?,?,?)");
                 statement.setString(1, test.getStudentNo());
                 statement.setString(2, test.getSubjectCd());
                 statement.setString(3, test.getSchoolCd());
-                statement.setInt(4, test.getTimes());
-                statement.setInt(5, test.getScore());
+                statement.setInt(4, test.getno());
+                statement.setInt(5, test.getpoint());
                 statement.setString(6, test.getClassNum());
             } else {
                 statement = connection.prepareStatement(
-                    "update test set score = ? where student_no = ? and subject_cd = ? and school_cd = ? and times = ?");
-                statement.setInt(1, test.getScore());
+                    "update test set point = ? where student_no = ? and subject_cd = ? and school_cd = ? and no = ?");
+                statement.setInt(1, test.getpoint());
                 statement.setString(2, test.getStudentNo());
                 statement.setString(3, test.getSubjectCd());
                 statement.setString(4, test.getSchoolCd());
-                statement.setInt(5, test.getTimes());
+                statement.setInt(5, test.getno());
             }
             count = statement.executeUpdate();
         } catch (Exception e) {

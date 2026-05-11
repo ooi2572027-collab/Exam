@@ -38,7 +38,7 @@ public class TestRegistAction extends Action {
         // リクエストパラメーターの取得 2
         String subjectCd  = req.getParameter("subject_cd");
         String classNum   = req.getParameter("class_num");
-        String timesStr   = req.getParameter("times");
+        String noStr   = req.getParameter("no");
         String entYearStr = req.getParameter("ent_year");
 
         req.setAttribute("subjects",      subjects);
@@ -51,7 +51,7 @@ public class TestRegistAction extends Action {
         }
 
         // Step2: 科目・クラス・回数が指定された → 学生一覧＋得点入力フォームを表示
-        if (req.getParameter("score_0") == null) {
+        if (req.getParameter("point_0") == null) {
             // 学生一覧取得
             List<Student> students = null;
             if (entYearStr != null && !entYearStr.equals("0")) {
@@ -72,10 +72,10 @@ public class TestRegistAction extends Action {
 
             // 既存の得点を取得してセット
             List<Test> existingTests = new ArrayList<>();
-            if (timesStr != null && !timesStr.isEmpty()) {
-                int times = Integer.parseInt(timesStr);
+            if (noStr != null && !noStr.isEmpty()) {
+                int no = Integer.parseInt(noStr);
                 for (Student s : students) {
-                    Test t = testDao.get(s.getStudentNo(), subjectCd, school.getSchoolCd(), times);
+                    Test t = testDao.get(s.getStudentNo(), subjectCd, school.getSchoolCd(), no);
                     existingTests.add(t); // nullの場合もある
                 }
             }
@@ -84,7 +84,7 @@ public class TestRegistAction extends Action {
             req.setAttribute("existing_tests",  existingTests);
             req.setAttribute("subject_cd",      subjectCd);
             req.setAttribute("class_num",       classNum);
-            req.setAttribute("times",           timesStr);
+            req.setAttribute("no",           noStr);
             req.setAttribute("ent_year",        entYearStr);
             req.setAttribute("show_form",       true);
             req.getRequestDispatcher("testregist_list.jsp").forward(req, res);
@@ -94,23 +94,23 @@ public class TestRegistAction extends Action {
         // Step3: 得点を保存
         subjectCd  = req.getParameter("subject_cd");
         classNum   = req.getParameter("class_num");
-        timesStr   = req.getParameter("times");
-        int times  = Integer.parseInt(timesStr);
+        noStr   = req.getParameter("no");
+        int no  = Integer.parseInt(noStr);
 
         // 学生番号のリストを取得
         String[] studentNos = req.getParameterValues("student_no");
         if (studentNos != null) {
             for (int i = 0; i < studentNos.length; i++) {
-                String scoreStr = req.getParameter("score_" + i);
-                if (scoreStr == null || scoreStr.isEmpty()) continue;
+                String pointStr = req.getParameter("point_" + i);
+                if (pointStr == null || pointStr.isEmpty()) continue;
 
-                int score;
+                int point;
                 try {
-                    score = Integer.parseInt(scoreStr);
+                    point = Integer.parseInt(pointStr);
                 } catch (NumberFormatException e) {
                     continue;
                 }
-                if (score < 0 || score > 100) continue;
+                if (point < 0 || point > 100) continue;
 
                 Student student = studentDao.get(studentNos[i]);
                 if (student == null) continue;
@@ -119,8 +119,8 @@ public class TestRegistAction extends Action {
                 test.setStudentNo(studentNos[i]);
                 test.setSubjectCd(subjectCd);
                 test.setSchoolCd(school.getSchoolCd());
-                test.setTimes(times);
-                test.setScore(score);
+                test.setno(no);
+                test.setpoint(point);
                 test.setClassNum(student.getClassNum());
 
                 testDao.save(test);

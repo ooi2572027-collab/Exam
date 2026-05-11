@@ -17,10 +17,10 @@ public class Test implements Serializable {
     private String schoolCd;
 
     /** 回数 */
-    private int times;
+    private int no ;
 
     /** 得点 */
-    private int score;
+    private int point ;
 
     /** クラス番号 */
     private String classNum;
@@ -57,20 +57,20 @@ public class Test implements Serializable {
         this.schoolCd = schoolCd;
     }
 
-    public int getTimes() {
-        return times;
+    public int getno() {
+        return no;
     }
 
-    public void setTimes(int times) {
-        this.times = times;
+    public void setno(int no) {
+        this.no = no;
     }
 
-    public int getScore() {
-        return score;
+    public int getpoint() {
+        return point;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setpoint(int point) {
+        this.point = point;
     }
 
     public String getClassNum() {
