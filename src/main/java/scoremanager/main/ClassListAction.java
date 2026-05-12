@@ -1,33 +1,32 @@
 package scoremanager.main;
 
+import java.util.List;
+
+import bean.School;
+import bean.Teacher;
+import dao.ClassNumDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class ClassListAction extends Action {
 
-	@Override
-	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		//ローカル変数の宣言 12
-		//なし
+        HttpSession session = req.getSession();
+        Teacher teacher = (Teacher) session.getAttribute("user");
+        School school = teacher.getSchool();
 
-		//リクエストパラメータ―の取得 2
-		//なし
+        // DBからデータ取得 3
+        ClassNumDao classNumDao = new ClassNumDao();
+        List<String> classList = classNumDao.filter(school);
 
-		//DBからデータ取得 3
-		//なし
+        // レスポンス値をセット 6
+        req.setAttribute("class_num_set", classList);
 
-		//ビジネスロジック 4
-		//なし
-
-		//DBへデータ保存 5
-		//なし
-
-		//レスポンス値をセット 6
-		//なし
-
-		//JSPへフォワード 7
-		req.getRequestDispatcher("subject_list.jsp").forward(req, res);
-	}
+        // JSPへフォワード 7
+        req.getRequestDispatcher("class_list.jsp").forward(req, res);
+    }
 }
