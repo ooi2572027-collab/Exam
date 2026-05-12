@@ -59,6 +59,7 @@
                                         <th>学生番号</th>
                                         <th>氏名</th>
                                         <th class="text-end">得点</th>
+                                        <th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,6 +79,19 @@
                                                 </c:choose>">
                                                 ${test.point}
                                             </td>
+                                             <td class="text-center">
+								            <%-- 編集：成績登録画面にパラメーターを渡して遷移 --%>
+											<a href="TestRegist.action?subject_cd=${test.subjectCd}&class_num=${test.classNum}&no=${test.no}"
+											   class="btn btn-sm btn-outline-primary me-1">編集</a>
+								            <%-- 削除：確認ダイアログ付きフォーム --%>
+								            <form method="post" action="TestDelete.action" style="display:inline;"
+								                  onsubmit="return confirm('削除しますか？');">
+								                <input type="hidden" name="student_no" value="${test.studentNo}" />
+								                <input type="hidden" name="subject_cd" value="${test.subjectCd}" />
+								                <input type="hidden" name="no"         value="${test.no}" />
+								                <button type="submit" class="btn btn-sm btn-outline-danger">削除</button>
+								            </form>
+									        </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

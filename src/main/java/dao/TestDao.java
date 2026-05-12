@@ -209,4 +209,23 @@ public class TestDao extends Dao {
         }
         return count > 0;
     }
+    public void delete(String studentNo, String subjectCd, String schoolCd, int no) throws Exception {
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+
+        try {
+            statement = connection.prepareStatement(
+                "delete from test where student_no = ? and subject_cd = ? and school_cd = ? and no = ?");
+            statement.setString(1, studentNo);
+            statement.setString(2, subjectCd);
+            statement.setString(3, schoolCd);
+            statement.setInt(4, no);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (statement != null) { try { statement.close(); } catch (SQLException e) { throw e; } }
+            if (connection != null) { try { connection.close(); } catch (SQLException e) { throw e; } }
+        }
+    }
 }

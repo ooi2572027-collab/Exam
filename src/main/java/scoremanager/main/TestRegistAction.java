@@ -92,9 +92,6 @@ public class TestRegistAction extends Action {
         }
 
         // Step3: 得点を保存
-        subjectCd  = req.getParameter("subject_cd");
-        classNum   = req.getParameter("class_num");
-        noStr   = req.getParameter("no");
         int no  = Integer.parseInt(noStr);
 
         // 学生番号のリストを取得
