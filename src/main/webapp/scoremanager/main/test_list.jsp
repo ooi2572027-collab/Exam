@@ -34,8 +34,8 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">回数</label>
-                        <input type="number" class="form-control" name="times"
-                               value="${times}" min="1" max="99" placeholder="全回数" />
+                        <input type="number" class="form-control" name="no"
+                               value="${no}" min="1" max="99" placeholder="全回数" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-secondary w-100">絞り込み</button>
@@ -66,17 +66,17 @@
                                         <tr>
                                             <td>${test.subjectCd}</td>
                                             <td>${test.subject.subjectName}</td>
-                                            <td class="text-center">${test.times}</td>
+                                            <td class="text-center">${test.no}</td>
                                             <td>${test.classNum}</td>
                                             <td>${test.studentNo}</td>
                                             <td>${test.student.studentName}</td>
                                             <td class="text-end fw-bold
                                                 <c:choose>
-                                                    <c:when test="${test.score >= 80}">text-success</c:when>
-                                                    <c:when test="${test.score < 60}">text-danger</c:when>
+                                                    <c:when test="${test.point >= 80}">text-success</c:when>
+                                                    <c:when test="${test.point < 60}">text-danger</c:when>
                                                     <c:otherwise>text-dark</c:otherwise>
                                                 </c:choose>">
-                                                ${test.score}
+                                                ${test.point}
                                             </td>
                                         </tr>
                                     </c:forEach>

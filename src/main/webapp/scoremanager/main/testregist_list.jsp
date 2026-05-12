@@ -8,9 +8,9 @@
         $(function() {
             // 全員に同じ点数を一括入力するボタン
             $('#bulk-fill-btn').click(function() {
-                var val = $('#bulk-score').val();
+                var val = $('#bulk-point').val();
                 if (val === '') return;
-                $('input[name^="score_"]').val(val);
+                $('input[name^="point_"]').val(val);
             });
         });
         </script>
@@ -51,8 +51,8 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">回数 <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="times"
-                               value="${times}" min="1" max="99" required placeholder="例：1" />
+                        <input type="number" class="form-control" name="no"
+                               value="${no}" min="1" max="99" required placeholder="例：1" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-secondary w-100">学生一覧を表示</button>
@@ -64,15 +64,15 @@
             <c:if test="${show_form}">
                 <c:choose>
                     <c:when test="${not empty students}">
-                        <form method="post">
+                        <form action="TestRegist.action" method="post">
                             <input type="hidden" name="subject_cd" value="${subject_cd}" />
                             <input type="hidden" name="class_num"  value="${class_num}" />
-                            <input type="hidden" name="times"      value="${times}" />
+                            <input type="hidden" name="no"      value="${no}" />
                             <input type="hidden" name="ent_year"   value="${ent_year}" />
 
                             <div class="mx-4 mb-3 d-flex align-items-center gap-2">
                                 <span class="text-muted">一括入力：</span>
-                                <input type="number" id="bulk-score" class="form-control"
+                                <input type="number" id="bulk-point" class="form-control"
                                        style="width:100px;" min="0" max="100" placeholder="点数" />
                                 <button type="button" id="bulk-fill-btn" class="btn btn-outline-secondary btn-sm">
                                     全員に適用
@@ -97,10 +97,10 @@
                                             <td>${student.classNum}</td>
                                             <td>
                                                 <input type="number" class="form-control form-control-sm"
-                                                       name="score_${st.index}"
+                                                       name="point_${st.index}"
                                                        style="width:90px;"
                                                        min="0" max="100"
-                                                       value="${existing_tests[st.index] != null ? existing_tests[st.index].score : ''}"
+                                                       value="${existing_tests[st.index] != null ? existing_tests[st.index].point : ''}"
                                                        placeholder="未入力" />
                                             </td>
                                         </tr>

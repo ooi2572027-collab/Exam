@@ -33,17 +33,17 @@ public class TestListAction extends Action {
         // リクエストパラメーターの取得 2
         String subjectCd = req.getParameter("subject_cd");
         String classNum  = req.getParameter("class_num");
-        String timesStr  = req.getParameter("times");
+        String noStr  = req.getParameter("no");
 
         List<Test> tests = null;
-        int times = 0;
+        int no = 0;
 
         if (subjectCd != null) {
             // 絞り込み検索
-            if (timesStr != null && !timesStr.isEmpty() && !timesStr.equals("0")) {
-                times = Integer.parseInt(timesStr);
+            if (noStr != null && !noStr.isEmpty() && !noStr.equals("0")) {
+                no = Integer.parseInt(noStr);
             }
-            tests = testDao.filter(school, subjectCd, classNum, times);
+            tests = testDao.filter(school, subjectCd, classNum, no);
         }
 
         // レスポンス値をセット 6
@@ -52,7 +52,7 @@ public class TestListAction extends Action {
         req.setAttribute("tests",         tests);
         req.setAttribute("subject_cd",    subjectCd);
         req.setAttribute("class_num",     classNum);
-        req.setAttribute("times",         timesStr);
+        req.setAttribute("no",         noStr);
 
         // JSPへフォワード 7
         req.getRequestDispatcher("test_list.jsp").forward(req, res);

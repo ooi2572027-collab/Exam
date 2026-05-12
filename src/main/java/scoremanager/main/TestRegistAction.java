@@ -127,6 +127,6 @@ public class TestRegistAction extends Action {
             }
         }
 
-        res.sendRedirect("TestList.action");
+        req.getRequestDispatcher("testregist_done.jsp").forward(req, res);
     }
 }
