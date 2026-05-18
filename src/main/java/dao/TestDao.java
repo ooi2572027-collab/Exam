@@ -173,7 +173,7 @@ public class TestDao extends Dao {
     }
 
     /**
-     * saveメソッド 得点を登録または更新する
+     * saveメソッド 得点を登録・更新する
      */
     public boolean save(Test test) throws Exception {
         Connection connection = getConnection();
