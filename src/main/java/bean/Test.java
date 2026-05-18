@@ -16,7 +16,7 @@ public class Test implements Serializable {
     /** 学校コード */
     private String schoolCd;
 
-    /** 回数 */
+    /** テストの回数 */
     private int no ;
 
     /** 得点 */
