@@ -19,6 +19,7 @@
 				<a href="SubjectCreate.action">新規登録</a>
 			</div>
 
+<%-- 表 --%>
 			<c:choose>
 				<c:when test="${subjects.size()>0 }">
 					<div>検索結果：${subjects.size() }件</div>
