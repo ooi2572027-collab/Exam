@@ -13,7 +13,6 @@ import tool.Action;
 
 public class SubjectListAction extends Action {
 
-	//04/28 11:30更新　動くかは知らん
 	
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
