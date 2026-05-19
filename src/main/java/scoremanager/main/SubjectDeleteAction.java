@@ -1,13 +1,12 @@
 package scoremanager.main;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import bean.School;
 import bean.Subject;
 import bean.Teacher;
 import dao.SubjectDao;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class SubjectDeleteAction extends Action {
@@ -19,11 +18,10 @@ public class SubjectDeleteAction extends Action {
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
 
-        // リクエストパラメーターの取得 2
         String subjectCd = req.getParameter("cd");
 
         if (subjectCd == null || subjectCd.isEmpty()) {
-            res.sendRedirect("SubjectList.action");
+            req.getRequestDispatcher("/scoremanager/main/subject_delete_done.jsp").forward(req, res);
             return;
         }
 
@@ -34,7 +32,6 @@ public class SubjectDeleteAction extends Action {
             subjectDao.delete(subject);
         }
 
-        // 科目一覧へリダイレクト
-        res.sendRedirect("SubjectList.action");
+        req.getRequestDispatcher("/scoremanager/main/subject_delete_done.jsp").forward(req, res);
     }
 }
