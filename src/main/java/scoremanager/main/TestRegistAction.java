@@ -35,16 +35,16 @@ public class TestRegistAction extends Action {
         List<String> classNumList = classNumDao.filter(school);
         List<String> errors       = new ArrayList<>();
 
-        // リクエストパラメーターの取得 2
+        // リクエストパラメーターの取得
         String subjectCd  = req.getParameter("subject_cd");
         String classNum   = req.getParameter("class_num");
-        String noStr   = req.getParameter("no");
+        String noStr      = req.getParameter("no");
         String entYearStr = req.getParameter("ent_year");
 
         req.setAttribute("subjects",      subjects);
         req.setAttribute("class_num_set", classNumList);
 
-        // Step1: 科目・クラス・回数が未選択 → 絞り込みフォームを表示
+        // Step1: 科目が未選択 → 絞り込みフォームを表示
         if (subjectCd == null) {
             req.getRequestDispatcher("testregist_list.jsp").forward(req, res);
             return;
@@ -52,19 +52,13 @@ public class TestRegistAction extends Action {
 
         // Step2: 科目・クラス・回数が指定された → 学生一覧＋得点入力フォームを表示
         if (req.getParameter("point_0") == null) {
-            // 学生一覧取得
             List<Student> students = null;
-            if (entYearStr != null && !entYearStr.equals("0")) {
-                students = studentDao.filter(school, Integer.parseInt(entYearStr), classNum, true);
-            } else {
-                students = studentDao.filter(school, classNum.equals("0") ? false : true);
-                students = studentDao.filter(school, true);
-            }
 
             // 入学年度とクラスで絞り込み
-            if (entYearStr != null && !entYearStr.equals("0") && classNum != null && !classNum.equals("0")) {
+            if (entYearStr != null && !entYearStr.isEmpty() && !entYearStr.equals("0")
+                    && classNum != null && !classNum.equals("0")) {
                 students = studentDao.filter(school, Integer.parseInt(entYearStr), classNum, true);
-            } else if (entYearStr != null && !entYearStr.equals("0")) {
+            } else if (entYearStr != null && !entYearStr.isEmpty() && !entYearStr.equals("0")) {
                 students = studentDao.filter(school, Integer.parseInt(entYearStr), true);
             } else {
                 students = studentDao.filter(school, true);
@@ -76,25 +70,24 @@ public class TestRegistAction extends Action {
                 int no = Integer.parseInt(noStr);
                 for (Student s : students) {
                     Test t = testDao.get(s.getStudentNo(), subjectCd, school.getSchoolCd(), no);
-                    existingTests.add(t); // nullの場合もある
+                    existingTests.add(t);
                 }
             }
 
-            req.setAttribute("students",       students);
-            req.setAttribute("existing_tests",  existingTests);
-            req.setAttribute("subject_cd",      subjectCd);
-            req.setAttribute("class_num",       classNum);
-            req.setAttribute("no",           noStr);
-            req.setAttribute("ent_year",        entYearStr);
-            req.setAttribute("show_form",       true);
+            req.setAttribute("students",      students);
+            req.setAttribute("existing_tests", existingTests);
+            req.setAttribute("subject_cd",    subjectCd);
+            req.setAttribute("class_num",     classNum);
+            req.setAttribute("no",            noStr);
+            req.setAttribute("ent_year",      entYearStr);
+            req.setAttribute("show_form",     true);
             req.getRequestDispatcher("testregist_list.jsp").forward(req, res);
             return;
         }
 
         // Step3: 得点を保存
-        int no  = Integer.parseInt(noStr);
+        int no = Integer.parseInt(noStr);
 
-        // 学生番号のリストを取得
         String[] studentNos = req.getParameterValues("student_no");
         if (studentNos != null) {
             for (int i = 0; i < studentNos.length; i++) {

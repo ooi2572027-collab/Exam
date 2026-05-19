@@ -38,6 +38,11 @@
                                value="${no}" min="1" max="99" placeholder="全回数" />
                     </div>
                     <div class="col-md-2">
+					  <label class="form-label">学生番号</label>
+					  <input type="text" class="form-control" name="student_no"
+					         value="${student_no}" placeholder="学生番号" />
+					</div>
+                    <div class="col-md-2">
                         <button type="submit" class="btn btn-secondary w-100">絞り込み</button>
                     </div>
                 </form>
